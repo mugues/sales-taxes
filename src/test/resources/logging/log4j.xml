@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"	debug="false">
+
+	<appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="DEBUG" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p  [%c{1}] %m %n" />
+		</layout>
+	</appender>
+
+	<!-- 
+	appenders
+	 
+	#note the %X{*} - this is how you fetch data from Mapped Diagnostic Context (MDC)
+	%X{multichannelId} %X{eventType}  %X{eventMessageId}
+	 -->	
+	<appender name="applicationFileAppender" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="${logfile.path}${file.separator}${file.separator}application.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p [%c{1}] %m %n" />
+		</layout>
+	</appender>
+	
+	<appender name="frameworksFileAppender" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="${logfile.path}${file.separator}${file.separator}framework.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p [%c{1}] %m %n" />
+		</layout>
+	</appender>
+
+	
+	<!-- loggers -->
+	<logger name="it.tech.test" additivity="false">
+		<level value="DEBUG" />
+		<!-- 
+		<appender-ref ref="applicationFileAppender" />
+		 -->
+		<appender-ref ref="consoleAppender" />
+		
+	</logger>
+
+	<logger name="org.springframework" additivity="false">
+		<level value="DEBUG" />
+		<!--
+		<appender-ref ref="frameworksFileAppender" />
+		-->
+		<appender-ref ref="consoleAppender" />
+	</logger>
+	
+	
+</log4j:configuration>
